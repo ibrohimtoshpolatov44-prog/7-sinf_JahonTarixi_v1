@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7-sinf Jahon Tarixi Testi (1-19-mavzular)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(120deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+        header p {
+            margin: 8px 0 0;
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+        .info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #dee2e6;
+            font-size: 0.95rem;
+            color: #495057;
+        }
+        .test-area {
+            padding: 30px;
+        }
+        .question {
+            display: none;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 5px solid #2a5298;
+        }
+        .question.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .question-number {
+            font-weight: bold;
+            color: #2a5298;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+        .question-text {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+        .options li {
+            margin-bottom: 12px;
+        }
+        .options label {
+            display: block;
+            padding: 14px 18px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        .options label:hover {
+            border-color: #2a5298;
+            background: #f1f5f9;
+        }
+        .options input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .timer {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #e74c3c;
+            background: #fef5f5;
+            padding: 10px 18px;
+            border-radius: 50px;
+            min-width: 80px;
+            text-align: center;
+        }
+        button {
+            padding: 12px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-start {
+            background: #27ae60;
+            color: white;
+        }
+        .btn-start:hover {
+            background: #219a52;
+            transform: translateY(-2px);
+        }
+        .btn-next {
+            background: #2a5298;
+            color: white;
+        }
+        .btn-next:hover {
+            background: #1e3c72;
+            transform: translateY(-2px);
+        }
+        .btn-finish {
+            background: #e74c3c;
+            color: white;
+        }
+        .btn-finish:hover {
+            background: #c0392b;
+        }
+        .progress-container {
+            margin: 25px 0;
+            background: #e9ecef;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #2a5298, #1e3c72);
+            width: 0%;
+            border-radius: 6px;
+            transition: width 0.4s ease;
+        }
+        .result {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            margin: 20px;
+        }
+        .result h2 {
+            font-size: 2.5rem;
+            margin: 0 0 15px;
+        }
+        .result p {
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+        .score {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .restart {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            margin-top: 20px;
+        }
+        .restart:hover {
+            background: white;
+            color: #667eea;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #2c3e50;
+            color: #ecf0f1;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 600px) {
+            .container { margin: 10px; }
+            header h1 { font-size: 1.5rem; }
+            .question { padding: 20px; }
+            .controls { flex-direction: column; }
+            button { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>7-sinf Jahon Tarixi Testi</h1>
+            <p>1-19-mavzular • 20 savol • Har bir savolga 30 soniya</p>
+        </header>
+
+        <div class="info">
+            <strong>Tuzuvchi:</strong> Ibrohim Toshpoʻlatov<br>
+            <strong>Test yaratildi:</strong> Grok yordamida
+        </div>
+
+        <div class="test-area">
+            <div id="start-screen">
+                <div style="text-align:center; padding:40px 20px;">
+                    <h2 style="color:#2a5298; margin-bottom:20px;">Testga tayyormisiz?</h2>
+                    <p style="font-size:1.1rem; margin-bottom:25px; color:#555;">
+                        20 ta savol, har biriga 30 soniya vaqt beriladi.<br>
+                        Vaqt tugasa, avtomatik ravishda keyingi savolga o‘tiladi.
+                    </p>
+                    <button class="btn-start" onclick="startTest()">Testni boshlash</button>
+                </div>
+            </div>
+
+            <div id="quiz-container" style="display:none;">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+
+                <form id="quiz-form">
+                    <!-- Savollar shu yerga JavaScript orqali qo‘shiladi -->
+                </form>
+
+                <div class="controls">
+                    <div class="timer" id="timer">30</div>
+                    <button type="button" class="btn-next" id="next-btn" onclick="nextQuestion()" style="display:none;">Keyingi savol</button>
+                    <button type="button" class="btn-finish" id="finish-btn" onclick="finishTest()" style="display:none;">Testni tugatish</button>
+                </div>
+            </div>
+
+            <div id="result" class="result">
+                <h2>Test tugadi!</h2>
+                <div class="score" id="score-display">0/20</div>
+                <p id="percentage">0%</p>
+                <p id="message"></p>
+                <button class="restart" onclick="restartTest()">Yana urinib ko‘rish</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        © 2025 Jahon Tarixi Testi | Grok yordamida yaratildi
+    </footer>
+
+    <script>
+        const questions = [
+            {
+                question: "German qabilalari nechanchi asrlarda koʻchisgan?",
+                options: ["mil.avv IV-VI", "mil.V-VII", "mil.avv V-VI", "mil.IV-VI"],
+                correct: 3
+            },
+            {
+                question: "German qabilalarini kimlar boshqargan?",
+                options: ["Konunglar", "Oliy Inka", "Xon", "Toʻgʻri javob mavjud emas"],
+                correct: 0
+            },
+            {
+                question: "Vestgotlarga tegishli boʻlmagan maʼlumotni toping.",
+                options: [
+                    "410-yilda Rimni ishgʻol qilishadi.",
+                    "Oʻz davlatini 418-yilda qurishadi.",
+                    "Qabila nomi \"gʻarbiy gotlar\" degan maʼnoni anglatadi.",
+                    "Vestgot qirolligining poytaxti Ravenna boʻlgan."
+                ],
+                correct: 3
+            },
+            {
+                question: "Franklarga tegishli boʻlgan maʼlumotni toping.",
+                options: [
+                    "Franklar 476-yili Gʻarbiy Rimni bosib oladi.",
+                    "Franklarning ilk humdori Teodorix edi.",
+                    "496-yilda xristianlikni qabul qilishadi.",
+                    "Franklarda IV-V asrlarda tabaqalanish kuchayadi."
+                ],
+                correct: 2
+            },
+            {
+                question: "Rimliklar qachon Britaniya orollariga hujum uyishtirishadi?",
+                options: ["Milodiy 43-yil", "Milodiy 404-yil", "Milodiy 407-yil", "Milodiy 40-yil"],
+                correct: 0
+            },
+            {
+                question: "Kim \"dunyo moʻjizasi\" deb nom olgan?",
+                options: ["Otton I", "Genrix IV", "Otton III", "Karl Martell"],
+                correct: 2
+            },
+            {
+                question: "Arablar qanday xalqlar hisoblanadi?",
+                options: ["Somiy tilli", "Oltoy tilli", "Fors tili oilasi xalqlari", "Boltiq boʻyi xalqlari"],
+                correct: 0
+            },
+            {
+                question: "Badaviylar kimlar?",
+                options: [
+                    "Kaʼbatulloh yaqinida yashovchilar",
+                    "Sahroyilar",
+                    "Arabiston yarimorolida yashovchi boshqa elatlar",
+                    "Toʻgʻri javob yoʻq"
+                ],
+                correct: 1
+            },
+            {
+                question: "Arablar islom dinidan avval qaysi dinga eʼtiqod qilishgan?",
+                options: ["Majusiylik", "Totemism", "Yahudiylik", "Shomonism"],
+                correct: 1 // Eslatma: Tarixiy jihatdan bu totemism yoki politeizmga yaqinroq
+            },
+            {
+                question: "Muhammad s.a.v davridan oldin Ka'bada nimalar saqlangan?",
+                options: [
+                    "Iso a.s va havoriylar haykallari",
+                    "But va sanamlar",
+                    "Quraysh qabilasi majlis joyi",
+                    "Toʻgʻri javoblar yoʻq"
+                ],
+                correct: 1
+            },
+            {
+                question: "Muhammad s.a.v Makkadan Madinaga hijrat qilgani haqidagi xato maʼlumotni toping.",
+                options: [
+                    "Milodiy 622-yilda hijrat qilishgan",
+                    "Paygʻambar borishidan oldin Madina Yasrib deb atalgan.",
+                    "Bu sanadan boshlab hijriy yil hisobi paydo boʻlgan.",
+                    "Makka toʻliq islomga oʻtgandan keyin hijrat qilishgan."
+                ],
+                correct: 3
+            },
+            {
+                question: "Dastlabki toʻrt halifa kim?",
+                options: [
+                    "Usmon I,Murod III,Boyazid Yeldirim",
+                    "Abu Bakr,Umar,Usmon,Ali",
+                    "Abu Bakr,Umar,Ali,Amir Qazagʻon",
+                    "Abu Bakr,Umar,Usmon,Abu Muslim"
+                ],
+                correct: 1
+            },
+            {
+                question: "Ummaviylar davrida poytaxt qayer edi?",
+                options: ["Bagʻdod", "Halab", "Ar-Riyod", "Damashq"],
+                correct: 3
+            },
+            {
+                question: "Xuroson,Yaqin va Oʻrta sharq,qisman Movarounnahrda hukmronlik qilgan qabila qaysi?",
+                options: ["Saljuqiylar", "Mamluklar", "Moʻgʻullar", "Sosoniylar"],
+                correct: 0
+            },
+            {
+                question: "Osiyodagi qaysi davlatda tabaqalanish oʻta kuchli edi?",
+                options: ["Hindiston", "Xitoy", "Yaponiya", "Koguryo"],
+                correct: 0
+            },
+            {
+                question: "Siyosatnoma asari muallifi kim?",
+                options: ["At-Tusiy", "Dehlaviy", "Margʻinoniy", "Firdavsiy"],
+                correct: 0
+            },
+            {
+                question: "Ilk koreys davlati qaysi?",
+                options: ["Koguryo", "Silla", "Pekche", "Choson"],
+                correct: 3
+            },
+            {
+                question: "Kusko qaysi davlat poytaxti boʻlgan?",
+                options: ["Nippon", "Koguryo", "Inklar davlati", "Koryo"],
+                correct: 2
+            },
+            {
+                question: "Yeretiklar kimlar?",
+                options: [
+                    "Yevropada qoʻl mehnati tarafdorlari,luddchilar deb ham atalgan",
+                    "Yevropada cherkovga qarshi chiqqanlar,Papa ularni sud qilgan",
+                    "Iso alayhissalomga ergashgan shogirdlari",
+                    "Hamma javoblar toʻgʻri."
+                ],
+                correct: 1
+            },
+            {
+                question: "Ilk salib yurishi davri toʻgʻri berilgan javobni aniqlang.",
+                options: ["1096-1099", "1147-1149", "1202-1204", "1189-1192"],
+                correct: 0
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let timeLeft = 30;
+        let timerId = null;
+        let userAnswers = [];
+
+        const quizContainer = document.getElementById('quiz-container');
+        const quizForm = document.getElementById('quiz-form');
+        const startScreen = document.getElementById('start-screen');
+        const resultScreen = document.getElementById('result');
+        const nextBtn = document.getElementById('next-btn');
+        const finishBtn = document.getElementById('finish-btn');
+        const timerDisplay = document.getElementById('timer');
+        const progressBar = document.getElementById('progress-bar');
+
+        function startTest() {
+            startScreen.style.display = 'none';
+            quizContainer.style.display = 'block';
+            currentQuestion = 0;
+            score = 0;
+            userAnswers = [];
+            loadQuestion();
+            startTimer();
+        }
+
+        function loadQuestion() {
+            if (currentQuestion >= questions.length) {
+                finishTest();
+                return;
+            }
+
+            // Oldingi savolni tozalash
+            quizForm.innerHTML = '';
+
+            const q = questions[currentQuestion];
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question active';
+
+            questionDiv.innerHTML = `
+                <div class="question-number">Savol ${currentQuestion + 1} / ${questions.length}</div>
+                <div class="question-text">${q.question}</div>
+                <ul class="options">
+                    ${q.options.map((option, index) => `
+                        <li>
+                            <label>
+                                <input type="radio" name="q${currentQuestion}" value="${index}">
+                                ${String.fromCharCode(65 + index)}) ${option}
+                            </label>
+                        </li>
+                    `).join('')}
+                </ul>
+            `;
+
+            quizForm.appendChild(questionDiv);
+
+            // Progress bar
+            progressBar.style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
+
+            // Tugmalar
+            nextBtn.style.display = currentQuestion < questions.length - 1 ? 'inline-block' : 'none';
+            finishBtn.style.display = currentQuestion === questions.length - 1 ? 'inline-block' : 'none';
+
+            // Oldingi javobni yuklash
+            const savedAnswer = userAnswers[currentQuestion];
+            if (savedAnswer !== undefined) {
+                const radio = quizForm.querySelector(`input[value="${savedAnswer}"]`);
+                if (radio) radio.checked = true;
+            }
+        }
+
+        function startTimer() {
+            timeLeft = 30;
+            timerDisplay.textContent = timeLeft;
+            
+            if (timerId) clearInterval(timerId);
+            
+            timerId = setInterval(() => {
+                timeLeft--;
+                timerDisplay.textContent = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    nextQuestion();
+                }
+            }, 1000);
+        }
+
+        function nextQuestion() {
+            // Javobni saqlash
+            const selected = quizForm.querySelector(`input[name="q${currentQuestion}"]:checked`);
+            userAnswers[currentQuestion] = selected ? parseInt(selected.value) : -1;
+
+            if (selected && parseInt(selected.value) === questions[currentQuestion].correct) {
+                score++;
+            }
+
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+                startTimer();
+            } else {
+                finishTest();
+            }
+        }
+
+        function finishTest() {
+            clearInterval(timerId);
+            quizContainer.style.display = 'none';
+            resultScreen.style.display = 'block';
+
+            const percentage = Math.round((score / questions.length) * 100);
+            document.getElementById('score-display').textContent = `${score}/${questions.length}`;
+            document.getElementById('percentage').textContent = `${percentage}%`;
+
+            let message = '';
+            if (percentage >= 90) message = 'Ajoyib! Siz tarixchi boʻlishingiz mumkin!';
+            else if (percentage >= 70) message = 'Juda yaxshi! Yana ozgina harakat!';
+            else if (percentage >= 50) message = 'Yaxshi, lekin yaxshilash kerak.';
+            else message = 'Yana oʻqib, tayyorlaning!';
+
+            document.getElementById('message').textContent = message;
+        }
+
+        function restartTest() {
+            resultScreen.style.display = 'none';
+            startScreen.style.display = 'block';
+        }
+
+        // Klaviatura yordamida boshqarish
+        document.addEventListener('keydown', (e) => {
+            if (quizContainer.style.display === 'block') {
+                if (e.key === 'Enter') {
+                    const selected = quizForm.querySelector(`input[name="q${currentQuestion}"]:checked`);
+                    if (selected || timeLeft <= 0) {
+                        nextQuestion();
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
